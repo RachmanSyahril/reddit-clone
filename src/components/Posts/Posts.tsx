@@ -21,7 +21,7 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
     setPostStateValue,
     onVote,
     onDeletePost,
-    onSelectPost,
+    onSelectPost
   } = usePosts();
 
   const getPosts = async () => {
@@ -35,14 +35,14 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
         orderBy('createdAt', 'desc')
       );
       const postDocs = await getDocs(postsQuery);
-      const posts = postDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setPostStateValue((prev) => ({
+      const posts = postDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setPostStateValue(prev => ({
         ...prev,
-        posts: posts as Post[],
+        posts: posts as Post[]
       }));
 
       console.log('posts', posts);
-    } catch (error: any) {
+    } catch (error) {
       console.error('getPosts error', error.message);
     }
     setLoading(false);
@@ -58,12 +58,15 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
         <PostLoader />
       ) : (
         <Stack>
-          {postStateValue.posts.map((item) => (
+          {postStateValue.posts.map(item => (
             <PostItem
               key={item.id}
               post={item}
               userIsCreator={user?.uid === item.creatorId}
-              userVoteValue={undefined}
+              userVoteValue={
+                postStateValue.postVotes.find(vote => vote.postId === item.id)
+                  ?.voteValue
+              }
               onVote={onVote}
               onSelectPost={onSelectPost}
               onDeletePost={onDeletePost}

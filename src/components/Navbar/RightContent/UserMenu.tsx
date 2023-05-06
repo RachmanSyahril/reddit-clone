@@ -8,7 +8,7 @@ import {
   Icon,
   Flex,
   MenuDivider,
-  Text,
+  Text
 } from '@chakra-ui/react';
 import { signOut, User } from 'firebase/auth';
 import React from 'react';
@@ -34,7 +34,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     await signOut(auth);
 
     // clear community state
-    resetCommunityState();
+    // resetCommunityState();
   };
 
   return (
